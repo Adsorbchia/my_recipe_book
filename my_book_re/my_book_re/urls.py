@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from my_book_re.settings import DEBUG
 from django.contrib import admin
 from django.urls import include, path
 
@@ -25,3 +26,8 @@ urlpatterns = [
     path('', include('main.urls', namespace='main')),
     path('catalog/', include('recipe_catalog.urls', namespace='recipe_catalog')),
 ]
+
+if DEBUG:
+    urlpatterns += [
+        path('__debug__/', include('debug_toolbar.urls')),
+        ]
