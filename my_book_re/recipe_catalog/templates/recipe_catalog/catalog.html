@@ -4,16 +4,21 @@
 {% block content %}
 <div class="row">   
     
-    {% for card in  goods%}
+    {% for card in  goods %}
     <!-- Карта товара -->
     <div class="col-lg-4 col-md-6 p-4">
         <div class="card border-primary rounded custom-shadow">
-            <img src="{% static card.image %}" class="card-img-top" alt="...">
+            {% if card.image %}
+            <img src="{{ card.image.url }}" class="card-img-top" alt="{{ card.name_recipe }}">
+            {% else %}
+            <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="{{ card.name_recipe }}">
+            {% endif %}
             <div class="card-body">
                 <a href="../goods/product.html">
-                    <p class="card-title">{{ card.name }}</p>
+                    <p class="card-title">{{ card.name_recipe }}</p>
                 </a>
-                <p class="card-text text-truncate">{{ card.post }}</p>
+                <p class="card-text text-truncate">{{ card.description }}</p>
+                
                 <p class="product_id">{{ card.author }}</p>
                 <div class="d-flex justify-content-between">
                 </div>

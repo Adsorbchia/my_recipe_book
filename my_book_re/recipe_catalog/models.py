@@ -32,7 +32,7 @@ class Author(models.Model):
         verbose_name_plural = "Авторы"
 
     def __str__(self):
-        return f"Автор: {self.name}, {self.surname}"
+        return f"Автор: {self.name} {self.surname}"
 
 
 class Recipe(models.Model):
