@@ -1,0 +1,37 @@
+[
+  {
+    "model": "recipe_catalog.category",
+    "pk": 3,
+    "fields": { "name": "Выпечка и десерты", "slug": "vypechka-i-deserty" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 4,
+    "fields": { "name": "Супы", "slug": "supy" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 5,
+    "fields": { "name": "Паста и пицца", "slug": "pasta-i-picca" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 6,
+    "fields": { "name": "Салаты", "slug": "salaty" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 7,
+    "fields": { "name": "Напитки", "slug": "napitki" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 8,
+    "fields": { "name": "Завтраки", "slug": "zavtraki" }
+  },
+  {
+    "model": "recipe_catalog.category",
+    "pk": 9,
+    "fields": { "name": "Все рецепты", "slug": "vse-recepty" }
+  }
+]

@@ -57,7 +57,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item  text-white" href="users/profile.html">Добавить рецепт</a>
                                 </li>
-                                <li><a class="dropdown-item  text-white" href="#">Админ панель</a></li>
+                                <li><a class="dropdown-item  text-white" href="{% url 'admin:index' %}">Админ панель</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -86,13 +86,10 @@
                             height="16">
                     </button>
                     <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Все рецепты</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Завтраки</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Выпечка и десерты</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Супы</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Паста и пицца</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Салаты</a></li>
-                        <li><a class="dropdown-item text-white" href="goods/catalog.html">Напитки</a></li>
+                    
+                        {% for category  in categories %}
+                        <li><a class="dropdown-item text-white" href='{% url "recipe_catalog:catalog" %}'>{{ category.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -109,10 +106,10 @@
                    {% block content %}{% endblock %}
                     
                 </div>
-                <div class="mt-5 pt-5 center-screen">
+                {% comment %} <div class="mt-5 pt-5 center-screen">
                   
                   {% block content_cards %}{% endblock %}         
-        </div>
+        </div> {% endcomment %}
     </section>
     <footer class="py-4 bg-primary sticky-bottom">
         <div class="container">
