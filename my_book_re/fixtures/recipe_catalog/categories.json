@@ -32,6 +32,6 @@
   {
     "model": "recipe_catalog.category",
     "pk": 9,
-    "fields": { "name": "Все рецепты", "slug": "vse-recepty" }
+    "fields": { "name": "Все рецепты", "slug": "all" }
   }
 ]

@@ -66,8 +66,8 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="d-flex" role="search" action="{% url 'recipe_catalog:search' %}" method="get">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success text-white" type="submit">Поиск</button>
                     </form>
                 </div>
@@ -89,7 +89,7 @@
                     <ul class="dropdown-menu bg-dark" data-bs-theme="dark">
                     {%  tag_category as categories %}
                         {% for category  in categories %}
-                        <li><a class="dropdown-item text-white" href='{% url "recipe_catalog:catalog" %}'>{{ category.name }}</a></li>
+                        <li><a class="dropdown-item text-white" href='{% url "recipe_catalog:catalog" category.slug %}'>{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -112,11 +112,10 @@
                   {% block content_cards %}{% endblock %}         
         </div> {% endcomment %}
     </section>
-    <footer class="py-4 bg-primary sticky-bottom">
-        <div class="container">
-            <p class="m-0 text-center text-white"> COOKING at HOME; The site was created in Python using the framework Django</p>
-        </div>
-    </footer>
+    
+    {% block footer %}{% endblock %}
+        
+  
     <script src="{% static 'deps/js/jquery/jquery-3.7.0.min.js' %}"></script>
     <script src="{% static 'deps/js/jquery-events.js' %}"></script>
     <script src="{% static 'deps/js/jquery-ajax.js' %}"></script>

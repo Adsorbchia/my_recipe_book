@@ -1,0 +1,12 @@
+[
+  {
+    "model": "recipe_catalog.author",
+    "pk": 1,
+    "fields": {
+      "name": "Наталья",
+      "surname": "Степанова",
+      "email": "natnikstepanova_8787@mail.ru",
+      "registration_date": "2024-02-29T17:04:30.796Z"
+    }
+  }
+]
