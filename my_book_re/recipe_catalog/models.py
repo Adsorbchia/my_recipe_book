@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.timezone import utc
 from django.urls import reverse
 
+from users.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name="Название")
@@ -17,23 +19,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Author(models.Model):
-    name = models.CharField(max_length=150, unique=True, verbose_name="Имя")
-    surname = models.CharField(max_length=150, unique=True, verbose_name="Фамилия")
-    email = models.EmailField(verbose_name="Электронная почта", unique=True)
-    registration_date = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата регистрации"
-    )
-
-    class Meta:
-        db_table = "autors"
-        verbose_name = "Автора"
-        verbose_name_plural = "Авторы"
-
-    def __str__(self):
-        return f"Автор: {self.name} {self.surname}"
 
 
 class Recipe(models.Model):
@@ -52,7 +37,7 @@ class Recipe(models.Model):
     date_of_creation = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата добавления рецепта"
     )
-    author = models.ForeignKey(to=Author, on_delete=models.CASCADE, verbose_name='Автор')
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='Автор')
 
     class Meta:
         db_table = "recipe"
