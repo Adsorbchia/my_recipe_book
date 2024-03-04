@@ -1,10 +1,10 @@
-
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
-from users.forms import UserLoginForm
+from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 
 
 def login(request):
@@ -16,6 +16,7 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
+                messages.success(request, f"{username}, добро пожаловать!")
                 return HttpResponseRedirect(reverse('main:index'))
     else:
         form = UserLoginForm()        
@@ -27,16 +28,46 @@ def login(request):
 
 
 def registration(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            user = form.instance
+            auth.login(request, user)
+            messages.success(request, f"{user.username}, вы успешно зарегестрированы!")
+            return HttpResponseRedirect(reverse('main:index'))
+    else:
+        form = UserRegistrationForm()
     context = {
-        'title': 'Регистрация'
+        'title': 'Регистрация',
+        'form': form
     }
-    return render(request, 'users/registration.html', context=context)
+    return render(request, 'users/registration.html', context)
 
+
+
+@login_required
 def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            user = form.instance
+            auth.login(request, user)
+            messages.success(request, " Ваш профиль успешно обновлен")
+            return HttpResponseRedirect(reverse('user:profile'))
+    else:
+        form = UserProfileForm(instance=request.user)
+    
     context = {
-        'title': 'Кабинет'
+        'title': 'Кабинет',
+        'form': form
     }
-    return render(request, 'users/profile.html', context=context)
+    return render(request, 'users/profile.html', context)
 
+
+@login_required
 def logout(request):
-  ...
+    messages.success(request, f"{request.user.username}, спасибо что были с нами, возвращайтесь скорее!")
+    auth.logout(request)
+    return redirect(reverse('main:index'))
