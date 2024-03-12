@@ -21,7 +21,7 @@ def login(request):
                 auth.login(request, user)
                 messages.success(request, f"{username}, добро пожаловать!")
                 redirect_page = request.POST.get('next', None)
-                if redirect_page and redirect_page != reverse('user:logout')
+                if redirect_page and redirect_page != reverse('user:logout'):
                     return HttpResponseRedirect(request.POST.get('next'))
 
                 return HttpResponseRedirect(reverse('main:index'))
@@ -99,7 +99,6 @@ def add_recipe(request):
         'form': form
     }
     return render(request,'users/user_add_recipe.html', context)
-
 
 
 

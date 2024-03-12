@@ -2,47 +2,29 @@
 {% load static %}
 {% load cart_tags %}
 {% block content  %}
-<div class="container">
-    <div class="row mt-1">
-        <div class="col-lg-2">
-            <!-- Пустой блок на усмотрение -->
+{% favorites_recipes request as favorites %}   
+<div class="row">    
+{% for favorite in favorites %}
+<div class="col-lg-4 col-md-6 p-4">
+    <div class="card border-primary rounded custom-shadow">
+        {% if favorite.recipe.image %}
+        <img src="{{ favorite.recipe.image.url }}" class="card-img-top" alt="{{ favorite.recipe.name_recipe }}">
+        {% else %}
+        <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="{{ favorite.recipe.name_recipe }}">
+        {% endif %}
+        <div class="card-body">
+            <a href="{% url "recipe_catalog:recipe" favorite.recipe.slug %}">
+                <p class="card-title">{{ favorite.recipe.name_recipe|truncatewords:4 }}</p>
+            </a>
+            <p class="card-text text-truncate"><strong>Время приготовления:</strong> {{favorite.recipe.cooking_time }} мин</p>
+            <p class="card-text text-truncate"><strong>Категория:</strong> {{favorite.recipe.recipe.category }}</p>
+            <p class="product_id">{{ favorite.recipe.author }}</p>
+            <div class="d-flex justify-content-between">
+            </div>
         </div>
-        <div class="col-lg-10">
-            <!-- Контент на странице -->
-            <div class="row">
-                <div class="container mt-5">
-                    <div class="row justify-content-center">
-                        <div class=" bg-white p-4 mb-4 mx-2 rounded custom-shadow">
-                            <h3 class="text-center mb-4">Избранное</h3>
-                            <div class="container" id="cart-items-container">
-                                <!-- Разметка избранного -->
-                                <div class="card mb-3 text-bg-light shadow-lg">
-                                    {% favorites_recipes request as favorites %}
-                                    {% for favorite in favorites %}
-                                    {% comment %} <div class="card-header">
-                                        <h5 class="card-title">{{ favorite.recipe.name_recipe }}</h5>
-                                    </div> {% endcomment %}
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            <div class="row text-center">
-                                                <div class="col p-0">
-                                                    <div class="input-group"><h5 class="card-title">{{ favorite.recipe.name_recipe }}</h5>
-                                                        <a href=""><button>Просмотреть</button></a>
-                                                    </div>
-                                                </div> 
-                                                <div class="col p-0">
-                                                    <a href="{% url 'cart:cart_remove' recipe.slug %}" class="remove-from-cart" data-cart-id="">
-                                                        <img class="mx-1" src=" {% static 'deps/icons/trash3-fill.svg' %}"
-                                                            alt="Catalog Icon" width="16" height="16">
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-     
-                                    {% endfor %}
-                                </div>    
-                
-                                </div>
-                            </div>
-                            {% endblock %}
+    </div>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}

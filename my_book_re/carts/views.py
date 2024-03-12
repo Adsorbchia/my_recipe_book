@@ -19,19 +19,13 @@ def cart_add(request, recipe_slug):
       
         return redirect(request.META['HTTP_REFERER'])
             
-    
 
-      
-
-
-def cart_remove(request, recipe_slug):
-     recipe = Recipe.objects.get(slug=recipe_slug)
-     if request.user.is_authenticated:
-          favorite = Favourite.objects.filter(user=request.user, recipe=recipe)
-          if favorite.exists():
-               favorite.delete()
-     return redirect(request.META['HTTP_REFERER'])
+def cart_remove(request, cart_id):
+    cart = Favourite.objects.get(pk=cart_id)
+    cart.delete()
+    return redirect(request.META['HTTP_REFERER'])
           
-
+def users_recipes(request):
+     return render(request, 'carts/user_recipes.html')
 
 

@@ -15,15 +15,18 @@ def catalog(request, category_slug=None):
 
     if category_slug == "all":
         recipes = Recipe.objects.all()
+        if on_image:
+            recipes = Recipe.objects.exclude(image='')
+        if order_by and order_by!='default':
+            recipes = Recipe.objects.order_by(order_by)
     elif query:
         recipes = q_search(query)
     else:
         recipes = get_list_or_404(Recipe, category__slug=category_slug)
-
-    if on_image:
-        recipes = Recipe.objects.exclude(image='')
-    if order_by and order_by!='default':
-        recipes = Recipe.objects.order_by(order_by)
+        if on_image:
+            recipes = Recipe.objects.filter(category__slug=category_slug).exclude(image='')
+        if order_by and order_by!='default':
+            recipes = Recipe.objects.filter(category__slug=category_slug).order_by(order_by)
    
     paginator = Paginator(recipes, 6)
     current_page = paginator.page(int(page))

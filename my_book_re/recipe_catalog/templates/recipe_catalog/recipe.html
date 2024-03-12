@@ -38,7 +38,7 @@
             <p class="card-text"><strong>Рецепт</strong> {{ recipe.cooking_steps }}</p>
             <p class="card-text"><strong>Время приготовления:</strong> {{ recipe.cooking_time }} мин</p>
             <p class="card-text">Автор {{ recipe.author}}</p>
-            <a href="{% url 'cart:cart_add' recipe.slug %}" class="btn mx-3 mt-3"><img src="{% static 'deps/icons/add.svg' %}" alt="Catalog Icon"></a>  
+            <a href="{% url 'cart:cart_add' recipe.slug %}" title="Добавить в избранное "class="btn mx-3 mt-3"><img src="{% static 'deps/icons/add.svg' %}" alt="Catalog Icon"></a>  
         </div>
     
 {% endblock  %}
