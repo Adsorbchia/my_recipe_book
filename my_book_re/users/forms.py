@@ -1,7 +1,8 @@
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-
 from users.models import User
+from recipe_catalog.models import Recipe
 
 
 class UserLoginForm(AuthenticationForm):
@@ -43,3 +44,16 @@ class UserProfileForm(UserChangeForm):
     email = forms.CharField()
 
 
+class UserRecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = [
+            'name_recipe',
+            'description',
+            'ingredients',
+            'cooking_steps',
+            'cooking_time',
+            'image', 
+            'category', 'author' ]
+    
+    

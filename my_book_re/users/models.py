@@ -1,6 +1,13 @@
 
+from urllib import response
+from venv import create
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
+
+
+
 
 
 class User(AbstractUser):
@@ -13,4 +20,14 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
+
+
+
+
+    
+
+
+
+
+
 

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'main', 
     'recipe_catalog',
     'users',
+    'carts',
 ]
 
 MIDDLEWARE = [

@@ -1,10 +1,13 @@
+import re
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
+
+from users.forms import UserLoginForm, UserRecipeForm, UserRegistrationForm, UserProfileForm
+
 
 
 def login(request):
@@ -17,7 +20,8 @@ def login(request):
             if user:
                 auth.login(request, user)
                 messages.success(request, f"{username}, добро пожаловать!")
-                if request.POST.get('next', None):
+                redirect_page = request.POST.get('next', None)
+                if redirect_page and redirect_page != reverse('user:logout')
                     return HttpResponseRedirect(request.POST.get('next'))
 
                 return HttpResponseRedirect(reverse('main:index'))
@@ -74,3 +78,39 @@ def logout(request):
     messages.success(request, f"{request.user.username}, спасибо что были с нами, возвращайтесь скорее!")
     auth.logout(request)
     return redirect(reverse('main:index'))
+
+
+
+def add_recipe(request):
+    user = request.user
+  
+    if request.method == 'POST':
+        form = UserRecipeForm(data=request.POST,  files= request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Ваш рецепт успешно добавлен")
+            return HttpResponseRedirect(reverse('main:index'))      
+    else:
+        form = UserRecipeForm()
+    
+    context = {
+        'title':'Добавление рецепта',
+        'user': user,
+        'form': form
+    }
+    return render(request,'users/user_add_recipe.html', context)
+
+
+
+
+  
+    
+
+
+        
+
+
+
+        
+    
+    

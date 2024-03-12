@@ -13,7 +13,6 @@ def catalog(request, category_slug=None):
     order_by = request.GET.get("order_by", None)
     query = request.GET.get("q", None)
 
-
     if category_slug == "all":
         recipes = Recipe.objects.all()
     elif query:
@@ -41,3 +40,8 @@ def recipes(request, recipe_slug):
     recipe = get_object_or_404(Recipe, slug=recipe_slug)
     context = {"recipe": recipe}
     return render(request, "recipe_catalog/recipe.html", context=context)
+
+
+
+
+

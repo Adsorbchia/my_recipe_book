@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% block content %}
 <div class="container mt-5">
     <div class="card mb-4 custom-shadow">
@@ -38,8 +36,9 @@
             <p class="card-text">{{ recipe.description }}</p>
             <p class="card-text"><strong>Ингредиенты:</strong> {{ recipe.ingredients }}</p>
             <p class="card-text"><strong>Рецепт</strong> {{ recipe.cooking_steps }}</p>
-            <p class="card-text"><strong>Время приготовления:</strong> {{ recipe.cooking_time }}</p>
-            <p class="card-text">{{ recipe.author}}</p>
+            <p class="card-text"><strong>Время приготовления:</strong> {{ recipe.cooking_time }} мин</p>
+            <p class="card-text">Автор {{ recipe.author}}</p>
+            <a href="{% url 'cart:cart_add' recipe.slug %}" class="btn mx-3 mt-3"><img src="{% static 'deps/icons/add.svg' %}" alt="Catalog Icon"></a>  
         </div>
     
 {% endblock  %}

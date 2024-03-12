@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils.timezone import utc
-from django.urls import reverse
+from django.contrib.contenttypes.fields import GenericRelation
 
 from users.models import User
 
@@ -38,6 +38,7 @@ class Recipe(models.Model):
         auto_now_add=True, verbose_name="Дата добавления рецепта"
     )
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, verbose_name='Автор')
+  
 
     class Meta:
         db_table = "recipe"
