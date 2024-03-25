@@ -140,3 +140,4 @@ Control.ca-bundle
 Control.system-ca-bundle
 .pylintrc
 my_book_re/templates/not.html
+my_book_re/carts/middlewares.py
