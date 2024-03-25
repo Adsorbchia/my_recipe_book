@@ -2,8 +2,9 @@
 {% load static %}
 {% load cart_tags %}
 {% block content  %}
-{% user_recipe request as recipes %}   
-<div class="row">    
+{% user_recipe user.id as recipes %}   
+<div class="row">
+    {% if recipes %}    
 {% for recipe in recipes %}
 <div class="col-lg-4 col-md-6 p-4">
     <div class="card border-primary rounded custom-shadow">
@@ -25,6 +26,17 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+
+    <div class="card border-primary rounded custom-shadow col-lg-4 col-md-6 p-4">
+<h4> У вас пока нет собственных рецептов! </h4>
+
+    <a class="btn btn-primary " href="{% url 'user:user_add_recipe' %}" role="button">Добавить рецепт</a>
+    <br>
+    <a class="btn btn-primary" href="{% url 'main:index' %}" role="button">Нет, вернусь позже</a>
+</div>
+
+{% endif %}
 </div>
 
 {% endblock %}

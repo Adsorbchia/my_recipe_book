@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-    
     {% block content %}
     <h1 class="mt-5 pt-3"><strong>{{ content }}</strong></h1>
-   
    {% for card in recipes %}
   <!-- Карта товара -->
   <div class="col-lg-4 col-md-6 p-4 ">
       <div class="card border-primary rounded custom-shadow">
-        
         {% if card.image %}
          <img src="{{ card.image.url }}" class="card-img-top" alt="{{ card.name_recipe }}">
          {% else %}

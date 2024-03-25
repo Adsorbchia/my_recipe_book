@@ -1,31 +1,74 @@
-from urllib import request
+import json
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from carts.forms import FavouriteForm
-from carts.models import Favourite
+from django.contrib import messages
+from django.template.loader import render_to_string
+from carts.models import Favourite, Subscribers
+from carts.utils import get_favorites_ricipes
 from recipe_catalog.models import Recipe
+from users.models import User
+from django.contrib.auth.decorators import login_required
 
+
+@login_required
 def favorite_recipes(request):
-    return render(request, 'carts/favorite_recipes.html')
+    return render(request, "carts/favorite_recipes.html")
 
-def cart_add(request, recipe_slug):
-        recipe = Recipe.objects.get(slug=recipe_slug)
-        if request.user.is_authenticated:
-            favorites = Favourite.objects.filter(user=request.user, recipe=recipe)
-            if favorites.exists():
-                favorites.delete()
-            else:
-                Favourite.objects.create(user=request.user, recipe=recipe)
-           
+
+@login_required
+def cart_add(request, recipe_id):
+    
+    recipe = get_object_or_404(Recipe,pk=recipe_id)
+    print(recipe)
+
+    if recipe.favor_recipe.filter(user=request.user).exists():
+        Favourite.objects.filter(user=request.user, recipe=recipe).delete()
       
-        return redirect(request.META['HTTP_REFERER'])
+    else:
+        Favourite.objects.create(user=request.user, recipe=recipe)
+        
+              
+    context ={
+        'recipe':recipe
+    }    
             
+    return  render(request, "recipe_catalog/recipe.html", context=context)   
 
-def cart_remove(request, cart_id):
-    cart = Favourite.objects.get(pk=cart_id)
-    cart.delete()
-    return redirect(request.META['HTTP_REFERER'])
-          
+
+@login_required
 def users_recipes(request):
-     return render(request, 'carts/user_recipes.html')
+    return render(request, "carts/user_recipes.html")
 
 
+@login_required
+def create_subscription(request, creator_id):
+    creator = User.objects.get(pk=creator_id)
+    subscribers = Subscribers.objects.filter(user=request.user, creator=creator)
+    
+    if subscribers.exists():
+        subscribers.delete()
+        messages.success(request, "Подписка отменена")
+    else:
+        Subscribers.objects.create(user=request.user, creator=creator)
+        messages.success(request, "Подписка создана")
+    return redirect(request.META["HTTP_REFERER"])
+
+
+def favorite_authors(request, user_id):
+
+    user = User.objects.get(pk=user_id)
+    authors = 0
+    if user.subscriber.exists():
+        authors = user.subscriber.all()
+
+    context = {"title": "Подписки", "authors": authors}
+    return render(request, "carts/favorite_authors.html", context)
+
+
+def subscribers_of_the_user(request, user_id):
+    user = User.objects.get(pk=user_id)
+    subscribers = 0
+    if user.writer.exists():
+        subscribers = Subscribers.objects.filter(creator=user).all()
+    context = {"title": "Подписчики", "subscribers": subscribers}
+    return render(request, "carts/subscribers.html", context)

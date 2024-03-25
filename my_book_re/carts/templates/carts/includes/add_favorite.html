@@ -1,0 +1,18 @@
+{% load static %}
+<form action="{% url 'cart:cart_add' %}" method='POST'id="favorite">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+   {% comment %} {% checking_for_a_favorites request recipe_id as check_favorite %} {% endcomment %}
+   <p class="product_id mt-3">
+       {% if Liked %}
+       <a href="{% url 'cart:cart_add' %}" class="btn add-to-cart">
+        <button id="favorite" type="submit" name="recipe_id" value="{{ recipe.id }}"><img src="{% static 'deps/icons/star2.svg' %}" alt="Catalog Icon"></button></a>
+        {% else %}
+        <a href="{% url 'cart:cart_add' %}" class="btn add-to-cart">
+            <button id="favorite"  type="submit" name="recipe_id" value="{{ recipe.id }}"><img src="{% static 'deps/icons/star.svg' %}" alt="Catalog Icon" ></button></a>
+       {% endif %}
+       <small class=" text-secondary" id="goods-in-cart-count">{{ favorites.total_number }}</small> </a>
+    </p>
+        {% endif %}
+   
+</form>

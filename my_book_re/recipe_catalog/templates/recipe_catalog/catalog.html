@@ -7,7 +7,6 @@
         aria-expanded="false">
         Фильтры
     </button>
-
     <form action=" {% if request.GET.q %}{% url 'recipe_catalog:search' %}{% else %}{% url 'recipe_catalog:catalog' slug_url %}{% endif %}" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
         <div class="form-check text-white mx-3">
             <input class="form-check-input" type="checkbox" name="on_image" id="flexCheckDefault" value="on" 
@@ -47,16 +46,12 @@
 
 {% if request.GET.q %}
     <h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }}</h3>
-
 {% if  not recipes %}
 <link rel="stylesheet" href="{% static 'deps/css/my_footer_css.css' %}">
 <h2 class = "mt-4">По вашему запросу ничего не найдено</h2> 
-
 {% endif %}
-{% endif %}
-    
-<div class="row">   
-    
+{% endif %} 
+<div class="row">     
     {% for card in  recipes %}
     <!-- Карта товара -->
     <div class="col-lg-4 col-md-6 p-4">
@@ -67,7 +62,7 @@
             <img src="{% static 'deps/images/Not found image.png' %}" class="card-img-top" alt="{{ card.name_recipe }}">
             {% endif %}
             <div class="card-body">
-                <a href="{% url "recipe_catalog:recipe" card.slug %}">
+                <a href="{% url 'recipe_catalog:recipe' card.slug %}">
                     <p class="card-title">{{ card.name_recipe|truncatewords:4 }}</p>
                 </a>
                 <p class="card-text text-truncate"><strong>Время приготовления:</strong> {{card.cooking_time }} мин</p>

@@ -1,5 +1,5 @@
-
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from users.models import User
 from recipe_catalog.models import Recipe
@@ -29,6 +29,14 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField()
     password1 = forms.CharField()
     password2 = forms.CharField()
+
+
+    def clean_email(self):
+        email = self.clean_data['email']
+        if get_user_model().objects.filter(email=email).exists():
+            raise forms.ValidationError("Пользователь с таким email уже существует")
+        return email
+
     
 
 class UserProfileForm(UserChangeForm):
@@ -45,15 +53,18 @@ class UserProfileForm(UserChangeForm):
 
 
 class UserRecipeForm(forms.ModelForm):
+
     class Meta:
         model = Recipe
         fields = [
             'name_recipe',
+            'slug',
             'description',
             'ingredients',
             'cooking_steps',
             'cooking_time',
             'image', 
-            'category', 'author' ]
+            'category','author' ]
+    image = forms.ImageField(required=False)
     
     

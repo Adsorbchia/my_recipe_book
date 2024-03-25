@@ -10,5 +10,8 @@ urlpatterns = [
    
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
-    path('recipe/', recipes, name='recipe')
+    path('recipe/', recipes, name='recipe'),
+    path('creators/', views.show_authors, name='creators'),
+    path('creator/<int:user_id>/', views.show_profile_authors, name='creator'),
+
 ]

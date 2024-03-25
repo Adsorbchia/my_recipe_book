@@ -5,12 +5,12 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-9 bg-white p-4 mb-5 mx-2 rounded custom-shadow">
-        <h2 class="text-center mb-4">Добавление рецепта</h2>
-        <form action="{% url 'user:user_add_recipe' %}" method="post" enctype="multipart/form-data">
+        <h2 class="text-center mb-4">Редактирование рецепта</h2>
+        <form action="{% url 'user:change_the_recipe' recipe.slug %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="row">
            <div class="col-md-6 mb-3">
-              <label for="id_name_recipe" class="form-label">Название рецепта*</label>
+            <strong><h5 class="card-title">{{ recipe.name_recipe }}</h5></strong>
               <input
                 type="text"
                 class="form-control"
@@ -66,9 +66,8 @@
               <textarea cols="30" rows="20"
                 class="form-control"
                 id="id_cooking_steps"
-                value="{% if form.cooking_steps.value %}{{ form.cooking_steps.value }}{% endif %}"
                 name="cooking_steps"
-                placeholder="Введите шаги приготовления" required></textarea>
+                placeholder="Введите шаги приготовления" required>{% if form.cooking_steps.value %}{{ form.cooking_steps.value }}{% endif %}</textarea>
                 {% if form.cooking_steps.errors %}<div class="alert alert-danger alert-dismissible fade show">{{ form.cooking_steps.errors }}</div>
                 {% endif %}
             </div>
@@ -88,7 +87,11 @@
                 {% endif %}
             </div>
             <div class="col-md-6 mb-3">
-                <label for="id_image" class="form-label">Фотография*</label>
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="img-fluid" alt="{{ recipe.name_recipe }}">
+                {% else %}
+                <img src="{% static 'deps/images/Not found image.png' %}" class="img-fluid" alt="{{ recipe.name_recipe }}">
+                {% endif %}   
                     <input type="file" class="form-control mt-3" id="id_image" name="image"
                         accept="image/*" height="663">
                         {% if form.image.errors %}
@@ -116,13 +119,12 @@
                 value="{{ user.id }}"
                 name="author"
                 required>
-                </div> 
-                
-          </div> 
-          <button type="submit" class="btn btn-dark btn-block">
-            Добавить рецепт
-          </button>
+                </div>     
+          </div>
+          <button type="submit" class="btn btn-dark btn-block btn-sm">Редактировать рецепт</button>
         </form>
+        <br>
+        <a href="{% url 'main:index' %}"><button type="button" class="btn btn-secondary btn-sm">Отменить редактирование рецепта</button></a>
     </div>
     </div>
   </div>
