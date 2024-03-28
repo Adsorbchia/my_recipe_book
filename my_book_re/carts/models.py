@@ -6,10 +6,8 @@ from users.models import User
 class FavouriteQuerySet(models.QuerySet):
     def total_number(self):
         if self:
-            return sum(1 for _ in self )
+            return sum(1 for _ in self)
         return 0
-
-
 
 
 class Favourite(models.Model):
@@ -18,13 +16,16 @@ class Favourite(models.Model):
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        verbose_name="пользователь",  related_name="aut_user"
+        verbose_name="пользователь",
+        related_name="aut_user",
     )
     recipe = models.ForeignKey(
-        Recipe, 
-        blank=True, null=True,
-        on_delete=models.CASCADE, 
-        verbose_name="рецепт",  related_name="favor_recipe"
+        Recipe,
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name="рецепт",
+        related_name="favor_recipe",
     )
 
     class Meta:
@@ -34,31 +35,34 @@ class Favourite(models.Model):
 
     def __str__(self):
         return f"Избранное {self.user.username} | Рецепт {self.recipe.name_recipe}"
-    
+
     objects = FavouriteQuerySet.as_manager()
 
+
 class Subscribers(models.Model):
-     user = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        verbose_name="подписчик", related_name="subscriber"
+        verbose_name="подписчик",
+        related_name="subscriber",
     )
-     creator =  models.ForeignKey(
+    creator = models.ForeignKey(
         User,
         blank=True,
         null=True,
         on_delete=models.CASCADE,
-        verbose_name="автор",  related_name="writer"
+        verbose_name="автор",
+        related_name="writer",
     )
-     class Meta:
+
+    class Meta:
         db_table = "subscribers"
         verbose_name = "подписки"
         verbose_name_plural = "подписки"
 
-     def __str__(self):
+    def __str__(self):
         return {self.user}
-     
-     objects = FavouriteQuerySet.as_manager()
 
+    objects = FavouriteQuerySet.as_manager()

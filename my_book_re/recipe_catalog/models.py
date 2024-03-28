@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from users.models import User
 from django.template.defaultfilters import slugify
 
@@ -93,3 +94,7 @@ class Recipe(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(translit_to_eng(self.name_recipe))
         super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse("recipe_catalog:recipe", kwargs={"recipe_slug": self.slug})
+    

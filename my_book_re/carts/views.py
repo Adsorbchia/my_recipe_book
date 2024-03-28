@@ -17,19 +17,22 @@ def favorite_recipes(request):
 
 @login_required
 def cart_add(request, recipe_id):
-    
+
     recipe = get_object_or_404(Recipe,pk=recipe_id)
-    print(recipe)
+  
 
     if recipe.favor_recipe.filter(user=request.user).exists():
         Favourite.objects.filter(user=request.user, recipe=recipe).delete()
       
+      
     else:
         Favourite.objects.create(user=request.user, recipe=recipe)
+       
         
               
     context ={
-        'recipe':recipe
+        'recipe':recipe,
+       
     }    
             
     return  render(request, "recipe_catalog/recipe.html", context=context)   

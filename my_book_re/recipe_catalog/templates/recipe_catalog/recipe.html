@@ -60,10 +60,10 @@
      
             <div class="col-md-4 " id="favorites-selection" >
                 {% total_number_of_favorites recipe.slug as favorites %}
-                {% checking_for_a_favorites request recipe.id as check_fav %}
+                {% checking_for_a_favorites request recipe.id as like %}
                 {% if user.is_authenticated %}
                 <p class="mt-3">
-                    {% if check_fav %}
+                    {% if like %}
                     <a href="{% url 'cart:cart_add' recipe.id %}"><button class="btn "><img src="{% static 'deps/icons/star2.svg' %}" alt="Catalog Icon"></button></a>
                     {% else %}
                     <a href="{% url 'cart:cart_add' recipe.id %}"><button  class="btn "><img src="{% static 'deps/icons/star.svg' %}" alt="Catalog Icon"></button></a>
