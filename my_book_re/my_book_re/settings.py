@@ -10,11 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from re import L
 
 from django.conf.global_settings import AUTH_USER_MODEL, INTERNAL_IPS, LOGIN_URL
+from dotenv import load_dotenv  
 
+
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,9 +32,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$4yv@$c2lemes^l)0@3ami6y^n8#4*a2eee^@h(yolg)iq7duv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+SECRET_KEY = os.environ.get("SECRET_KEY")  
 
-ALLOWED_HOSTS = ['*']
+if os.environ.get("DEBUG") == "False":
+    DEBUG = False
+else:
+    DEBUG = True
+
+SESSION_COOKIE_SECURE = True  
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS =  ["127.0.0.1", "natniks.pythonanywhere.com"]
 
 
 # Application definition
@@ -43,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
-    # 'django_static_jquery3',
+   
     
     'debug_toolbar',
     'main', 
@@ -63,7 +76,7 @@ MIDDLEWARE = [
     
 
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    # 'carts.middlewares.AjaxMiddleware'
+   
 ]
 
 ROOT_URLCONF = 'my_book_re.urls'
@@ -90,19 +103,30 @@ WSGI_APPLICATION = 'my_book_re.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'home',
-        'USER': 'home',
-        'PASSWORD': 'home',
-        'HOST': 'localhost',
-        'PORT': '5432',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'home',
+#         'USER': 'home',
+#         'PASSWORD': 'home',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 
-    }
+#     }
+# }
+DATABASES = {  
+    "default": {  
+        "ENGINE": "django.db.backends.mysql",  
+        "NAME": os.environ("MYSQL_DBNAME"),  
+        "USER": os.environ("MYSQL_USER"),  
+        "PASSWORD": os.environ("MYSQL_PASSWORD"),  
+        "HOST": os.environ("MYSQL_HOST"),  
+        "OPTIONS": {  
+            "init_command": "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",  
+            "charset": "utf8mb4",  
+        },  
+    }  
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -139,9 +163,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-    ]
+STATIC_ROOT = BASE_DIR / "static/"  
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+#     ]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
